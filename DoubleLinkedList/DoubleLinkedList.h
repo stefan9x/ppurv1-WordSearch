@@ -9,6 +9,7 @@
 #define DOUBLELINKEDLIST_H_
 
 #define MAX_WORD_LENGTH 30
+#define MAX_MATRIX_SIZE 20
 
 typedef struct Word
 {
@@ -22,6 +23,12 @@ typedef struct WordList
 	Word* head;
 	Word* tail;
 } WordList;
+
+typedef struct Puzzle
+{
+	char charMatrix[MAX_MATRIX_SIZE][MAX_MATRIX_SIZE];
+	WordList* wordList;
+}Puzzle;
 
 void WordListCreate(WordList* wordList);
 void WordListDestroy(WordList* wordList);
