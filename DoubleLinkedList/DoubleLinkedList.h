@@ -30,6 +30,7 @@ typedef struct WordList
 typedef struct Puzzle
 {
 	char charMatrix[MAX_MATRIX_SIZE][MAX_MATRIX_SIZE];
+	uint_least8_t markedWords[MAX_MATRIX_SIZE][MAX_MATRIX_SIZE];
 	int_least8_t sizeX;
 	int_least8_t sizeY;
 	WordList* wordList;

@@ -6,13 +6,22 @@
  *       Index: RA234/2013
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <inttypes.h>
+#include <string.h>
+#include <time.h>
+#include "DoubleLinkedList.h"
 #include "FileHandle.h"
+#include "WordSearch.h"
 
 int main()
 {
 
 	FILE* inFile;
-	char* fileName = "puzzle1.txt";
+	char* fileName = "puzzle2.txt";
+
+	inFile = OpenFile(fileName);
 
 	Puzzle puzzle;
 	WordList wordList;
@@ -20,17 +29,17 @@ int main()
 	WordListCreate(&wordList);
 	puzzle.wordList = &wordList;
 
-	inFile = OpenFile(fileName);
-
 	ReadPuzzleFromFile(inFile, &puzzle, &wordList);
 
-	PrintMatrix(&puzzle);
-	printf("\n");
-	PrintWords(&puzzle);
+	//PrintMatrix(&puzzle);
+	//printf("\n");
+	//PrintWords(&puzzle);
+
+	solvePuzzle(&puzzle);
 
 	WordListDestroy(&wordList);
 
-	printf("finished.");
+	printf("\nFinished");
 
 	return 1;
 }
