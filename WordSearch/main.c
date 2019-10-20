@@ -2,12 +2,13 @@
  * main.c
  *
  *  Created on: Oct 18, 2019
- *      Author: stefa
+ *      Author: Stefan Jovanovic
+ *       Index: RA234/2013
  */
 
 #include "FileHandle.h"
 
-void main()
+int main()
 {
 
 	FILE* inFile;
@@ -23,6 +24,13 @@ void main()
 
 	ReadPuzzleFromFile(inFile, &puzzle, &wordList);
 
+	PrintMatrix(&puzzle);
+	printf("\n");
+	PrintWords(&puzzle);
+
+	WordListDestroy(&wordList);
+
 	printf("finished.");
 
+	return 1;
 }

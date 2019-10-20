@@ -2,7 +2,8 @@
  * DoubleLinkedList.h
  *
  *  Created on: Oct 18, 2019
- *      Author: stefa
+ *      Author: Stefan Jovanovic
+ *       Index: RA234/2013
  */
 
 #ifndef DOUBLELINKEDLIST_H_
@@ -38,5 +39,7 @@ void WordListCreate(WordList* wordList);
 void WordListDestroy(WordList* wordList);
 void WordListInsert(WordList* wordList, Word* location, const char* newWord);
 void WordListDelete(WordList* wordList, Word* location);
+void PrintMatrix(Puzzle* puzzle);
+void PrintWords(Puzzle* puzzle);
 
 #endif /* DOUBLELINKEDLIST_H_ */

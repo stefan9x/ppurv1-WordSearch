@@ -33,7 +33,9 @@ void WordListDestroy(WordList* wordList)
 	free(current);
 
 	wordList->head = NULL;
-	wordList->head = NULL;
+	wordList->tail = NULL;
+
+	free(wordList);
 }
 
 void WordListInsert(WordList* wordList, Word* location, const char* newWord)
@@ -49,12 +51,14 @@ void WordListInsert(WordList* wordList, Word* location, const char* newWord)
 		word->next = wordList->head;
 		word->previous = location;
 		wordList->head = word;
+		wordList->tail = word;
 	}
 	else
 	{
 		word->next = location->next;
 		word->previous = location;
 		location->next = word;
+		wordList->tail = word;
 	}
 }
 
@@ -74,4 +78,37 @@ void WordListDelete(WordList* wordList, Word* location)
 	}
 
 	free(location);
+}
+
+void PrintMatrix(Puzzle* puzzle)
+{
+	int_fast8_t x;
+	int_fast8_t y;
+
+	printf(" ");
+
+	for(x = 0; x < puzzle->sizeX; x++)
+	{
+		printf(" %d", x);
+	}
+
+	for(y = 0; y < puzzle->sizeY; y++)
+	{
+		printf("\n%d ", y);
+		for(x = 0; x < puzzle->sizeX; x++)
+		{
+			printf("%c ", puzzle->charMatrix[y][x]);
+		}
+	}
+}
+
+void PrintWords(Puzzle* puzzle)
+{
+	Word* word = puzzle->wordList->head;
+
+	while(word != NULL)
+	{
+		printf("%s", word->letters);
+		word = word->next;
+	}
 }

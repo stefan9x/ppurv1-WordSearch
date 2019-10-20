@@ -2,7 +2,8 @@
  * FileHandle.c
  *
  *  Created on: Oct 18, 2019
- *      Author: stefa
+ *      Author: Stefan Jovanovic
+ *       Index: RA234/2013
  */
 
 #include "FileHandle.h"
@@ -57,6 +58,6 @@ void ReadPuzzleFromFile(FILE* inFile, Puzzle* puzzle, WordList* wordList)
 		getline(&line, &lineLength, inFile);
 		if(strcmp(line, "#END") == 0) break;
 
-		WordListInsert(wordList, NULL, line);
+		WordListInsert(wordList, wordList->tail, line);
 	}
 }
