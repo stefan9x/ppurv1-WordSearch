@@ -1,2 +1,4 @@
 # eclipse specific git ignore
 .metadata
+WordSearch/.svn
+DoubleLinkedList/.svn
