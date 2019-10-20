@@ -8,8 +8,6 @@
 #ifndef DOUBLELINKEDLIST_H_
 #define DOUBLELINKEDLIST_H_
 
-#include <inttypes.h>
-
 #define MAX_WORD_LENGTH 30
 #define MAX_MATRIX_SIZE 20
 
@@ -29,8 +27,6 @@ typedef struct WordList
 typedef struct Puzzle
 {
 	char charMatrix[MAX_MATRIX_SIZE][MAX_MATRIX_SIZE];
-	int_least8_t sizeX;
-	int_least8_t sizeY;
 	WordList* wordList;
 }Puzzle;
 
