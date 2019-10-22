@@ -25,7 +25,7 @@ void WordListDestroy(WordList* wordList)
 
 	Word* current = wordList->head;
 
-	while(current != wordList->tail)
+	while (current != wordList->tail)
 	{
 		free(current->letters);
 		free(current->xPos);
@@ -50,7 +50,7 @@ void WordListInsert(WordList* wordList, Word* location, const char* newWord)
 	const char* charPtr = newWord;
 	int_least8_t newWordLength = 0;
 
-	while(*charPtr != '\r' && *charPtr != '\n')
+	while (*charPtr != '\r' && *charPtr != '\n')
 	{
 		newWordLength++;
 		charPtr++;
@@ -60,7 +60,7 @@ void WordListInsert(WordList* wordList, Word* location, const char* newWord)
 	strncpy(word->letters, newWord, newWordLength);
 	word->letters[newWordLength] = '\0';
 
-	if(location == NULL)
+	if (location == NULL)
 	{
 		word->next = wordList->head;
 		word->previous = location;
@@ -89,7 +89,7 @@ void AlocateMatrixMemory(FILE* inFile, Puzzle* puzzle)
 
 	charPtr = line;
 
-	while(*charPtr != '\n' && *charPtr != '\r')
+	while (*charPtr != '\n' && *charPtr != '\r')
 	{
 		x++;
 		charPtr++;
@@ -97,10 +97,10 @@ void AlocateMatrixMemory(FILE* inFile, Puzzle* puzzle)
 
 	puzzle->sizeX = x;
 
-	while(1)
+	while (1)
 	{
 		getline(&line, &lineLength, inFile);
-		if(strncmp(line, "#WORDS", 5) == 0) break;
+		if (strncmp(line, "#WORDS", 5) == 0) break;
 		y++;
 	}
 
@@ -125,15 +125,15 @@ void PrintMatrix(Puzzle* puzzle)
 	printf("\nOsmosmerka:\n");
 	printf(" ");
 
-	for(x = 0; x < puzzle->sizeX; x++)
+	for (x = 0; x < puzzle->sizeX; x++)
 	{
 		printf(" %"PRIiFAST8, x);
 	}
 
-	for(y = 0; y < puzzle->sizeY; y++)
+	for (y = 0; y < puzzle->sizeY; y++)
 	{
 		printf("\n%"PRIiFAST8" ", y);
-		for(x = 0; x < puzzle->sizeX; x++)
+		for (x = 0; x < puzzle->sizeX; x++)
 		{
 			printf("%c ", puzzle->charMatrix[y][x]);
 		}
@@ -146,7 +146,7 @@ void PrintWords(Puzzle* puzzle)
 	Word* word = puzzle->wordList->head;
 
 	printf("Words list:\n");
-	while(word != NULL)
+	while (word != NULL)
 	{
 		printf("%s\n", word->letters);
 		word = word->next;

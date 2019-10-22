@@ -19,11 +19,11 @@ void PrintSolution(const Puzzle* puzzle)
 	uint_fast8_t y;
 
 	printf("Resenje: ");
-	for(y = 0; y < puzzle->sizeY; y++)
+	for (y = 0; y < puzzle->sizeY; y++)
 	{
-		for(x = 0; x < puzzle->sizeX; x++)
+		for (x = 0; x < puzzle->sizeX; x++)
 		{
-			if(puzzle->markedWords[y][x] != 1)
+			if (puzzle->markedWords[y][x] != 1)
 			{
 				printf("%c", puzzle->charMatrix[y][x]);
 			}
@@ -68,7 +68,7 @@ void PrintWordsPositions(Puzzle* puzzle)
 	uint_least8_t i;
 	Word* word = puzzle->wordList->head;
 
-	while(word != NULL)
+	while (word != NULL)
 	{
 		wordLength = strlen(word->letters);
 		printf("%s:{", word->letters);
@@ -96,39 +96,39 @@ void TryAllDirections(Puzzle* puzzle, int_fast8_t posX, int_fast8_t posY, Word* 
 	uint_fast8_t j;
 	uint_least8_t matchCounter;
 
-	for(j = 0; j < 3; j++)
+	for (j = 0; j < 3; j++)
 	{
-		for(i = 0; i < 3; i++)
+		for (i = 0; i < 3; i++)
 		{
 			directionX = directions[i];
 			directionY = directions[j];
 
 			newPosX = posX + directionX;
-			if(newPosX >= puzzle->sizeX || newPosX < 0) continue;
+			if (newPosX >= puzzle->sizeX || newPosX < 0) continue;
 
 			newPosY = posY + directionY;
-			if(newPosY >= puzzle->sizeY || newPosY < 0) continue;
+			if (newPosY >= puzzle->sizeY || newPosY < 0) continue;
 
 			char* charPtr = word->letters + 1;
 
 			matchCounter = 1;
 
-			while(*charPtr == puzzle->charMatrix[newPosY][newPosX])
+			while (*charPtr == puzzle->charMatrix[newPosY][newPosX])
 			{
 
 				charPtr++;
 				matchCounter++;
 
-				if(*charPtr == '\0')
+				if (*charPtr == '\0')
 				{
 					MarkWord(puzzle, word, newPosX, newPosY, directionX, directionY, matchCounter);
 					break;
 				}
 
 				newPosX += directionX;
-				if(newPosX >= puzzle->sizeX || newPosX < 0) break;
+				if (newPosX >= puzzle->sizeX || newPosX < 0) break;
 				newPosY += directionY;
-				if(newPosY >= puzzle->sizeY || newPosY < 0) break;
+				if (newPosY >= puzzle->sizeY || newPosY < 0) break;
 			}
 		}
 	}
@@ -146,9 +146,9 @@ void FindWord(Puzzle* puzzle, Word* word)
 
 	for (mY = 0; mY < puzzle->sizeY; mY++)
 	{
-		for(mX = 0; mX < puzzle->sizeX; mX++)
+		for (mX = 0; mX < puzzle->sizeX; mX++)
 		{
-			if(*charPtr == puzzle->charMatrix[mY][mX])
+			if (*charPtr == puzzle->charMatrix[mY][mX])
 			{
 				TryAllDirections(puzzle, mX, mY, word);
 			}
@@ -163,7 +163,7 @@ void SolvePuzzle(Puzzle* puzzle)
 	Word* word;
 	word = puzzle->wordList->head;
 
-	while(word != NULL)
+	while (word != NULL)
 	{
 		FindWord(puzzle, word);
 		word = word->next;

@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
 
 	// Ako nije unet nijedan argument, ispisuje uputstvo za koristenje
 	// else, oslobadja zauzetu memoriju
-	if(argc < 3)
+	if (argc < 3)
 	{
 		printf("Usage: WordSearch [options]\n");
 		printf("Options:\n");
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-		for(i = 0; i < puzzle.sizeY; i++)
+		for (i = 0; i < puzzle.sizeY; i++)
 		{
 			free(puzzle.charMatrix[i]);
 			free(puzzle.markedWords[i]);

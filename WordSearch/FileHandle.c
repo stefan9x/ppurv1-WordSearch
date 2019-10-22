@@ -16,7 +16,7 @@ FILE* OpenFile(char* fileName)
 
 	inFile = fopen(fileName, "r");
 
-	if(inFile == NULL)
+	if (inFile == NULL)
 	{
 		printf("Could not load file.");
 		exit(EXIT_FAILURE);
@@ -35,14 +35,14 @@ void ReadPuzzleFromFile(FILE* inFile, Puzzle* puzzle)
 	size_t lineLength;
 
 	rewind(inFile);
-	while(1)
+	while (1)
 	{
 		getline(&line, &lineLength, inFile);
-		if(strncmp(line, "#WORDS", 5) == 0) break;
+		if (strncmp(line, "#WORDS", 5) == 0) break;
 		charPtr = line;
 		x = 0;
 
-		while(x < puzzle->sizeX)
+		while (x < puzzle->sizeX)
 		{
 			puzzle->charMatrix[y][x] = *charPtr;
 			x++;
@@ -54,7 +54,7 @@ void ReadPuzzleFromFile(FILE* inFile, Puzzle* puzzle)
 	while(1)
 	{
 		getline(&line, &lineLength, inFile);
-		if(strncmp(line, "#END", 4) == 0) break;
+		if (strncmp(line, "#END", 4) == 0) break;
 
 		WordListInsert(puzzle->wordList, puzzle->wordList->tail, line);
 	}
