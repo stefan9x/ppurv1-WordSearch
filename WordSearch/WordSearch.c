@@ -7,11 +7,13 @@
  */
 
 #include "WordSearch.h"
+#include "DoubleLinkedList.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-void printSolution(const Puzzle* puzzle)
+// Ispisuje resenje osmosmerke
+void PrintSolution(const Puzzle* puzzle)
 {
 	uint_fast8_t x;
 	uint_fast8_t y;
@@ -30,17 +32,14 @@ void printSolution(const Puzzle* puzzle)
 	printf("\n");
 }
 
-void printWord(Puzzle* puzzle, int_fast8_t lastPosX, int_fast8_t lastPosY, int_least8_t dirX, int_least8_t dirY, uint_least8_t wordLength)
+// Oznacava pronadjenu rec u matrici
+void MarkWord(Puzzle* puzzle, Word* word, int_fast8_t lastPosX, int_fast8_t lastPosY, int_least8_t dirX, int_least8_t dirY, uint_least8_t wordLength)
 {
 	int_fast8_t i;
-	int_least8_t xPosArray[wordLength];
-	int_least8_t yPosArray[wordLength];
 	int_least8_t invDirX;
 	int_least8_t invDirY;
-	int_fast8_t posX;
-	int_fast8_t posY;
-
-	char* word = (char*)malloc(wordLength + 1);
+	int_least8_t posX;
+	int_least8_t posY;
 
 	invDirX = dirX * (-1);
 	invDirY = dirY * (-1);
@@ -48,40 +47,54 @@ void printWord(Puzzle* puzzle, int_fast8_t lastPosX, int_fast8_t lastPosY, int_l
 	posX = lastPosX;
 	posY = lastPosY;
 
-	word[wordLength] = '\0';
+	word->xPos = (uint_least8_t*)malloc(wordLength * sizeof(uint_least8_t));
+	word->yPos = (uint_least8_t*)malloc(wordLength * sizeof(uint_least8_t));
 
 	for (i = wordLength - 1; i >= 0; i--)
 	{
-		xPosArray[i] = posX;
-		yPosArray[i] = posY;
-		word[i] = puzzle->charMatrix[posY][posX];
+		word->xPos[i] = posX;
+		word->yPos[i] = posY;
 		puzzle->markedWords[posY][posX] = 1;
 		posX += invDirX;
 		posY += invDirY;
 	}
 
-	printf("%s:{", word);
-
-	for (i = 0; i < wordLength; i++)
-	{
-		printf("[%d,%d]", xPosArray[i], yPosArray[i]);
-	}
-
-	printf("}\n");
 }
 
-void tryAllDirections(Puzzle* puzzle, int_fast8_t posX, int_fast8_t posY, Word* word)
+// Ispisuje poziciju svakog karaktera reci u matrici
+void PrintWordsPositions(Puzzle* puzzle)
+{
+	uint_least8_t wordLength;
+	uint_least8_t i;
+	Word* word = puzzle->wordList->head;
+
+	while(word != NULL)
+	{
+		wordLength = strlen(word->letters);
+		printf("%s:{", word->letters);
+
+		for (i = 0; i < wordLength; i++)
+		{
+			printf("[%"PRIuLEAST8",%"PRIuLEAST8"]", word->xPos[i], word->yPos[i]);
+		}
+
+		printf("}\n");
+
+		word = word->next;
+	}
+}
+
+// Trazi rec i svakom smeru
+void TryAllDirections(Puzzle* puzzle, int_fast8_t posX, int_fast8_t posY, Word* word)
 {
 	int_least8_t directions[] = {1, 0, -1};
 	int_least8_t directionX;
 	int_least8_t directionY;
-	int_fast8_t newPosX;
-	int_fast8_t newPosY;
+	int_least8_t newPosX;
+	int_least8_t newPosY;
 	uint_fast8_t i;
 	uint_fast8_t j;
-	uint_least8_t wordLength = strlen(word->letters) - 1;
 	uint_least8_t matchCounter;
-
 
 	for(j = 0; j < 3; j++)
 	{
@@ -91,37 +104,41 @@ void tryAllDirections(Puzzle* puzzle, int_fast8_t posX, int_fast8_t posY, Word* 
 			directionY = directions[j];
 
 			newPosX = posX + directionX;
-			if(newPosX > puzzle->sizeX || newPosX < 0) continue;
+			if(newPosX >= puzzle->sizeX || newPosX < 0) continue;
 
 			newPosY = posY + directionY;
-			if(newPosY > puzzle->sizeY || newPosY < 0) continue;
+			if(newPosY >= puzzle->sizeY || newPosY < 0) continue;
 
 			char* charPtr = word->letters + 1;
 
 			matchCounter = 1;
 
-			while(*charPtr != '\0' && *charPtr == puzzle->charMatrix[newPosY][newPosX])
+			while(*charPtr == puzzle->charMatrix[newPosY][newPosX])
 			{
 
 				charPtr++;
 				matchCounter++;
 
-				if(matchCounter == wordLength)
+				if(*charPtr == '\0')
 				{
-					printWord(puzzle, newPosX, newPosY, directionX, directionY, wordLength);
+					MarkWord(puzzle, word, newPosX, newPosY, directionX, directionY, matchCounter);
 					break;
 				}
 
 				newPosX += directionX;
+				if(newPosX >= puzzle->sizeX || newPosX < 0) break;
 				newPosY += directionY;
+				if(newPosY >= puzzle->sizeY || newPosY < 0) break;
 			}
 		}
 	}
 }
 
-void findWord(Puzzle* puzzle, Word* word)
+// Trazi pocetno slovo reci u matrici i kada nadje
+// poziva funckiju koja trazi ostatak rec u svakom smeru
+// oko tog slova
+void FindWord(Puzzle* puzzle, Word* word)
 {
-
 	char* charPtr = word->letters;
 
 	int_fast8_t mX = 0;
@@ -133,23 +150,22 @@ void findWord(Puzzle* puzzle, Word* word)
 		{
 			if(*charPtr == puzzle->charMatrix[mY][mX])
 			{
-				tryAllDirections(puzzle, mX, mY, word);
+				TryAllDirections(puzzle, mX, mY, word);
 			}
 		}
 	}
 }
 
-void solvePuzzle(Puzzle* puzzle)
+// Uzima rec po rec iz liste, i poziva funckiju
+// koja trazi rec u matrici
+void SolvePuzzle(Puzzle* puzzle)
 {
 	Word* word;
 	word = puzzle->wordList->head;
 
 	while(word != NULL)
 	{
-		findWord(puzzle, word);
+		FindWord(puzzle, word);
 		word = word->next;
 	}
-
-	printSolution(puzzle);
-
 }

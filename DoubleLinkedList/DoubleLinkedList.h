@@ -1,3 +1,4 @@
+#pragma once
 /*
  * DoubleLinkedList.h
  *
@@ -9,14 +10,14 @@
 #ifndef DOUBLELINKEDLIST_H_
 #define DOUBLELINKEDLIST_H_
 
+#include <stdio.h>
 #include <inttypes.h>
-
-#define MAX_WORD_LENGTH 30
-#define MAX_MATRIX_SIZE 20
 
 typedef struct Word
 {
-	char letters[MAX_WORD_LENGTH];
+	char* letters;
+	uint_least8_t* xPos;
+	uint_least8_t* yPos;
 	struct Word* next;
 	struct Word* previous;
 } Word;
@@ -29,8 +30,8 @@ typedef struct WordList
 
 typedef struct Puzzle
 {
-	char charMatrix[MAX_MATRIX_SIZE][MAX_MATRIX_SIZE];
-	uint_least8_t markedWords[MAX_MATRIX_SIZE][MAX_MATRIX_SIZE];
+	char** charMatrix;
+	uint_least8_t** markedWords;
 	int_least8_t sizeX;
 	int_least8_t sizeY;
 	WordList* wordList;
@@ -39,7 +40,7 @@ typedef struct Puzzle
 void WordListCreate(WordList* wordList);
 void WordListDestroy(WordList* wordList);
 void WordListInsert(WordList* wordList, Word* location, const char* newWord);
-void WordListDelete(WordList* wordList, Word* location);
+void AlocateMatrixMemory(FILE* inFile, Puzzle* puzzle);
 void PrintMatrix(Puzzle* puzzle);
 void PrintWords(Puzzle* puzzle);
 

@@ -25,23 +25,24 @@ FILE* OpenFile(char* fileName)
 	return inFile;
 }
 
-void ReadPuzzleFromFile(FILE* inFile, Puzzle* puzzle, WordList* wordList)
+// Popunjava matricu i listu reci, sa podacima iz datoteke
+void ReadPuzzleFromFile(FILE* inFile, Puzzle* puzzle)
 {
 	char* line = NULL;
 	char* charPtr;
 	int_least8_t x = 0;
 	int_least8_t y = 0;
-
 	size_t lineLength;
 
+	rewind(inFile);
 	while(1)
 	{
 		getline(&line, &lineLength, inFile);
-		if(strcmp(line, "#WORDS\n") == 0) break;
+		if(strncmp(line, "#WORDS", 5) == 0) break;
 		charPtr = line;
 		x = 0;
 
-		while(*charPtr != '\n')
+		while(x < puzzle->sizeX)
 		{
 			puzzle->charMatrix[y][x] = *charPtr;
 			x++;
@@ -50,14 +51,11 @@ void ReadPuzzleFromFile(FILE* inFile, Puzzle* puzzle, WordList* wordList)
 		y++;
 	}
 
-	puzzle->sizeX = x;
-	puzzle->sizeY = y;
-
 	while(1)
 	{
 		getline(&line, &lineLength, inFile);
-		if(strcmp(line, "#END") == 0) break;
+		if(strncmp(line, "#END", 4) == 0) break;
 
-		WordListInsert(wordList, wordList->tail, line);
+		WordListInsert(puzzle->wordList, puzzle->wordList->tail, line);
 	}
 }

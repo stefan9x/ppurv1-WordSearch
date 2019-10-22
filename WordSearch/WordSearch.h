@@ -12,11 +12,11 @@
 #include "DoubleLinkedList.h"
 #include <inttypes.h>
 
-void printSolution(const Puzzle* puzzle);
-void printWord(Puzzle* puzzle, int_fast8_t lastPosX, int_fast8_t lastPosY, int_least8_t dirX, int_least8_t dirY, uint_least8_t wordLength);
-void tryAllDirections(Puzzle* puzzle, int_fast8_t posX, int_fast8_t posY, Word* word);
-void findWord(Puzzle* puzzle, Word* word);
-void solvePuzzle(Puzzle* puzzle);
-
+void PrintSolution(const Puzzle* puzzle);
+void MarkWord(Puzzle* puzzle, Word* word, int_fast8_t lastPosX, int_fast8_t lastPosY, int_least8_t dirX, int_least8_t dirY, uint_least8_t wordLength);
+void PrintWordsPositions(Puzzle* puzzle);
+void TryAllDirections(Puzzle* puzzle, int_fast8_t posX, int_fast8_t posY, Word* word);
+void FindWord(Puzzle* puzzle, Word* word);
+void SolvePuzzle(Puzzle* puzzle);
 
 #endif /* WORDSEARCH_H_ */
